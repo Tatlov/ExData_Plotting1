@@ -2,8 +2,8 @@
 # for Coursera's Exploratory Data Analysis
 
 # The function get_data_and_plot reads the file household_power_consumption.txt
-# creates a png file plot1.png 
-# containing a plot of a household's global active power
+# creates a png file plot3.png 
+# containing a plot of a household's energy sub metering
 # between 2007-02-01 and 2007-02-02.
 
 # The data was obtained from
