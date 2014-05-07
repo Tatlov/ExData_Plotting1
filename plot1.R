@@ -30,10 +30,11 @@ make_and_store_plot1 <- function(power_consumption){
     dev.off()
 }
 
+# tests for getting the data are in plot1_test.R
 get_data <- function(){
     # path to file
     file_path <- file.path("household_power_consumption.txt")
-    # set the solumn types
+    # set the column types
     column_types <- c(rep("character",2),rep("numeric",7))
     # read the whole file
     power_consumption <- read.table( file_path, header = TRUE, sep = ";", 
