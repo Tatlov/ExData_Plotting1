@@ -22,7 +22,7 @@ get_data_and_plot <- function(){
 make_and_store_plot1 <- function(power_consumption){
     # open png file device with transparent background
     png(filename = "plot1.png", bg = "transparent")
-    # create a histogram use Base plotting system
+    # create a histogram using the Base plotting system
     hist(power_consumption[,"Global_active_power"],
          col="red", main="Global Active Power",
          xlab = "Global Active Power (kilowatts)")

@@ -3,7 +3,7 @@
 
 # The function get_data_and_plot reads the file household_power_consumption.txt
 # creates a png file plot1.png 
-# containing a histogram of a household's global active power
+# containing a plot of a household's global active power
 # between 2007-02-01 and 2007-02-02.
 
 # The data was obtained from
@@ -22,7 +22,7 @@ get_data_and_plot <- function(){
 make_and_store_plot2 <- function(power_consumption){
     # open png file device with transparent background
     png(filename = "plot2.png", bg = "transparent")
-    # create a histogram use Base plotting system
+    # create a plot using the Base plotting system
     with(power_consumption,plot(Date_time,Global_active_power,
                                 type="l",
                                 xlab = "",
