@@ -3,7 +3,7 @@
 
 # The function get_data_and_plot reads the file household_power_consumption.txt
 # creates a png file plot3.png 
-# containing a plot of a household's energy sub metering
+# containing a plot of a household's energy sub metering vs time
 # between 2007-02-01 and 2007-02-02.
 
 # The data was obtained from
@@ -11,11 +11,13 @@
 # and unzipped into a file named household_power_consumption.txt
 # in the same directory as this file plot3.R is located in.
 
-# top-level function
+# to create the plot do
+# source("plot3.R")
+# get_data_and_plot()
 get_data_and_plot <- function(){
     # get the data for the given date range
     power_consumption <- get_data()
-    # create the plot and store as plot1.png
+    # create the plot and store as plot3.png
     make_and_store_plot3(power_consumption)
 }
 
@@ -24,21 +26,23 @@ make_and_store_plot3 <- function(power_consumption){
     png(filename = "plot3.png", bg = "transparent")
     # create a plot using the Base plotting system
     # create axis and labels without points
-    with(power_consumption,plot(Date_time,Sub_metering_1,
-                                type = "n",
-                                xlab = "",
-                                ylab = "Energy sub metering"))
+    with(power_consumption,plot(Date_time,Sub_metering_1, # x, y data
+                                type = "n", # no points
+                                xlab = "", # no x-axis label
+                                ylab = "Energy sub metering")) # y-axis label
     # add energy sub metering points
-    with(power_consumption,points(Date_time,Sub_metering_1,
-                                  type = "l", col = "black"))
+    with(power_consumption,points(Date_time,Sub_metering_1, # x, y data
+                                  type = "l", # draw line
+                                  col = "black")) # black line
     with(power_consumption,points(Date_time,Sub_metering_2,
                                   type = "l", col = "red"))
     with(power_consumption,points(Date_time,Sub_metering_3,
                                   type = "l", col = "blue"))
     # add the legend
-    legend("topright",
-           legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
-           col = c("black", "red", "blue"), lty = "solid")
+    legend("topright", # legend position
+           legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), # labels
+           col = c("black", "red", "blue"), # colors
+           lty = "solid") # line type
     # close the file device
     dev.off()
 }

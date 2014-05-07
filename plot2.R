@@ -3,7 +3,7 @@
 
 # The function get_data_and_plot reads the file household_power_consumption.txt
 # creates a png file plot2.png 
-# containing a plot of a household's global active power
+# containing a plot of a household's global active power vs time
 # between 2007-02-01 and 2007-02-02.
 
 # The data was obtained from
@@ -11,11 +11,13 @@
 # and unzipped into a file named household_power_consumption.txt
 # in the same directory as this file plot2.R is located in.
 
-# top-level function
+# to create the plot do
+# source("plot2.R")
+# get_data_and_plot()
 get_data_and_plot <- function(){
     # get the data for the given date range
     power_consumption <- get_data()
-    # create the plot and store as plot1.png
+    # create the plot and store as plot2.png
     make_and_store_plot2(power_consumption)
 }
 
@@ -23,10 +25,10 @@ make_and_store_plot2 <- function(power_consumption){
     # open png file device with transparent background
     png(filename = "plot2.png", bg = "transparent")
     # create a plot using the Base plotting system
-    with(power_consumption,plot(Date_time,Global_active_power,
-                                type="l",
-                                xlab = "",
-                                ylab = "Global Active Power (kilowatts)"))
+    with(power_consumption, plot(Date_time,Global_active_power, #x, y data
+                                 type="l", # plot a line
+                                 xlab = "", # no x-axis label
+                                 ylab = "Global Active Power (kilowatts)")) # y-axis label
     # close the file device
     dev.off()
 }
@@ -35,7 +37,7 @@ get_data <- function(){
     # path to file
     file_path <- file.path("household_power_consumption.txt")
     # set the column types
-    column_types <- c(rep("character",2),rep("numeric",7))
+    column_types <- c(rep("character",2), rep("numeric",7))
     # read the whole file
     power_consumption <- read.table( file_path, header = TRUE, sep = ";", 
                                      na.strings = "?",
@@ -44,7 +46,7 @@ get_data <- function(){
     # create a Date_time column and delete Date and Time columns
     # to be able to easily select date ranges
     power_consumption <- combine_date_and_time(power_consumption)
-    # select the data between 2007-02-01 and 2007-02-02
+    # select the data of 2007-02-01 and 2007-02-02
     power_consumption <- extract_date_range(power_consumption)
     # return the data frame
     power_consumption

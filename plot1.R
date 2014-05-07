@@ -2,7 +2,7 @@
 # for Coursera's Exploratory Data Analysis
 
 # The function get_data_and_plot reads the file household_power_consumption.txt
-# creates a png file plot1.png 
+# and creates a png file plot1.png 
 # containing a histogram of a household's global active power
 # between 2007-02-01 and 2007-02-02.
 
@@ -11,7 +11,9 @@
 # and unzipped into a file named household_power_consumption.txt
 # in the same directory as this file plot1.R is located in.
 
-# top-level function
+# to create the plot do
+# source("plot1.R")
+# get_data_and_plot()
 get_data_and_plot <- function(){
     # get the data for the given date range
     power_consumption <- get_data()
@@ -21,11 +23,13 @@ get_data_and_plot <- function(){
 
 make_and_store_plot1 <- function(power_consumption){
     # open png file device with transparent background
+    # default is 480 x 480 pixels as required
     png(filename = "plot1.png", bg = "transparent")
     # create a histogram using the Base plotting system
-    hist(power_consumption[,"Global_active_power"],
-         col="red", main="Global Active Power",
-         xlab = "Global Active Power (kilowatts)")
+    hist(power_consumption[,"Global_active_power"], # data to be plotted
+         col="red", # color to fill the bars
+         main="Global Active Power", # title
+         xlab = "Global Active Power (kilowatts)") #xaxis label
     # close the file device
     dev.off()
 }
@@ -33,7 +37,7 @@ make_and_store_plot1 <- function(power_consumption){
 # tests for getting the data are in plot1_test.R
 get_data <- function(){
     # path to file
-    file_path <- file.path("household_power_consumption.txt")
+    file_path <- file.path(".","household_power_consumption.txt")
     # set the column types
     column_types <- c(rep("character",2),rep("numeric",7))
     # read the whole file
@@ -44,7 +48,7 @@ get_data <- function(){
     # create a Date_time column and delete Date and Time columns
     # to be able to easily select date ranges
     power_consumption <- combine_date_and_time(power_consumption)
-    # select the data between 2007-02-01 and 2007-02-02
+    # select the data of 2007-02-01 and 2007-02-02
     power_consumption <- extract_date_range(power_consumption)
     # return the data frame
     power_consumption

@@ -3,7 +3,7 @@
 
 # The function get_data_and_plot reads the file household_power_consumption.txt
 # creates a png file plot4.png 
-# containing four graphs of summarizing household's power consumption
+# containing four graphs of summarizing a household's power consumption
 # between 2007-02-01 and 2007-02-02.
 
 # The data was obtained from
@@ -11,11 +11,13 @@
 # and unzipped into a file named household_power_consumption.txt
 # in the same directory as this file plot4.R is located in.
 
-# top-level function
+# to create the plot do
+# source("plot4.R")
+# get_data_and_plot()
 get_data_and_plot <- function(){
     # get the data for the given date range
     power_consumption <- get_data()
-    # create the plot and store as plot1.png
+    # create the plot and store as plot4.png
     make_and_store_plot4(power_consumption)
 }
 
@@ -23,12 +25,12 @@ make_and_store_plot4 <- function(power_consumption){
     # open png file device with transparent background
     png(filename = "plot4.png", bg = "transparent")
     # create four graphs in one plot using the Base plotting system
-    par(mfrow = c(2,2))
+    par(mfrow = c(2,2)) # 4 graphs in a 2x2 layout
     # plot 1, top left
-    with(power_consumption,plot(Date_time,Global_active_power,
-                                type="l",
-                                xlab = "",
-                                ylab = "Global Active Power"))
+    with(power_consumption,plot(Date_time,Global_active_power, # x, y data
+                                type="l", # draw a line
+                                xlab = "", # no x-axis label
+                                ylab = "Global Active Power")) # y-axis label
     # plot 2, top right
     with(power_consumption,plot(Date_time,Voltage,
                                 type="l",
@@ -51,7 +53,8 @@ make_and_store_plot4 <- function(power_consumption){
     # add the legend
     legend("topright",
            legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
-           col = c("black", "red", "blue"), lty = "solid", bty = "n")
+           col = c("black", "red", "blue"), lty = "solid", 
+           bty = "n") # do not draw a box around the legend
     
     # plot 4, bottom right
     with(power_consumption,plot(Date_time,Global_reactive_power,
@@ -74,7 +77,7 @@ get_data <- function(){
     # create a Date_time column and delete Date and Time columns
     # to be able to easily select date ranges
     power_consumption <- combine_date_and_time(power_consumption)
-    # select the data between 2007-02-01 and 2007-02-02
+    # select the data of 2007-02-01 and 2007-02-02
     power_consumption <- extract_date_range(power_consumption)
     # return the data frame
     power_consumption

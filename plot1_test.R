@@ -6,6 +6,8 @@ source( "plot1.R" )
 # printTextProtocol( runTestFile("plot1_test.R") )
 
 test_get_data <- function(){
+    # row out of file
+    #2/2/2007;00:11:00;1.484;0.222;242.740;6.200;0.000;0.000;18.000
     power_consumption <- get_data()
     date_time <- as.POSIXlt("2007-02-02 00:11:00")
     column_name <- "Global_active_power"
@@ -35,5 +37,4 @@ test_combine_date_and_time <- function(){
     checkIdentical(target, combine_date_and_time(input_data_frame))
 }
 
-# row out of file
-#2/2/2007;00:11:00;1.484;0.222;242.740;6.200;0.000;0.000;18.000
+
