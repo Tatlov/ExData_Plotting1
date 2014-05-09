@@ -1,25 +1,43 @@
 # Course Project 1 - Plot 3
 # for Coursera's Exploratory Data Analysis
 
-# The function get_data_and_plot reads the file household_power_consumption.txt
+# The function get_data_and_plot gets the data and
 # creates a png file plot3.png 
 # containing a plot of a household's energy sub metering vs time
 # between 2007-02-01 and 2007-02-02.
 
-# The data was obtained from
+# If the zip file does not already exist, the data is obtained from
 # https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip
 # and unzipped into a file named household_power_consumption.txt
-# in the same directory as this file plot3.R is located in.
+# in the same directory as this file plot1.R is located in.
 
-# to create the plot do
+# to create the plot run
 # source("plot3.R")
 # get_data_and_plot()
+
 get_data_and_plot <- function(){
+    # download the data and unzip if zip file is not already in the directory
+    download_file_and_unzip()
     # get the data for the given date range
     power_consumption <- get_data()
     # create the plot and store as plot3.png
     make_and_store_plot3(power_consumption)
 }
+
+################################################################################
+# plotting
+################################################################################
+
+# Note:I decided to make the background of the four plots transparent 
+# in order to reproduce the reference plots exactly using the "bg" parameter
+# taught in the slide 10 of "The Base Plotting System in R" presentation 
+# of the course (e.g., for the Plot 1, see the Instructor's repository image 
+# https://github.com/rdpeng/ExData_Plotting1/blob/master/figure/unnamed-chunk-2.png).
+# Please consider that the plots in the Instructor's README file 
+# (https://github.com/rdpeng/ExData_Plotting1) are shown with a white background, 
+# even when all the plots have in reality a transparent one.  
+# When a transparent image is overlay on a white background, 
+# it seems to have this background color.
 
 make_and_store_plot3 <- function(power_consumption){
     # open png file device with transparent background
@@ -47,6 +65,12 @@ make_and_store_plot3 <- function(power_consumption){
     dev.off()
 }
 
+###############################################################################
+# getting the data
+#
+# tests for getting the data are in plot1_test.R
+###############################################################################
+
 get_data <- function(){
     # path to file
     file_path <- file.path("household_power_consumption.txt")
@@ -67,6 +91,9 @@ get_data <- function(){
 }
 
 extract_date_range <- function(df){
+    # extract the rows of data frame df 
+    # corresponding to 2007-02-01 and 2007-02-02
+    
     # select date range
     # this is inclusive of start_date and exclusive of end_date
     start_date <- as.POSIXct("2007-02-01")
@@ -76,6 +103,8 @@ extract_date_range <- function(df){
 }
 
 combine_date_and_time <- function(df){
+    # combine the Date and Time columns into a single date_time column
+    
     # column names
     time_column_name <- "Time"
     date_column_name <- "Date"
@@ -90,4 +119,35 @@ combine_date_and_time <- function(df){
                                                       date_time_format))
     #return with date and time columns removed
     df[,!(names(df) %in% c(time_column_name, date_column_name))]
+}
+
+
+################################################################################
+# Downloading the data
+################################################################################
+
+download_file_and_unzip <- function(){
+    # download the raw data from file url and unzip
+    # if the zip file does not already exist
+    
+    # set path to zip archive
+    file_name <- "exdata_data_household_power_consumption.zip"
+    file_path <- file.path(".",file_name)
+    # check if the zip file already exists
+    if (!file.exists(file_path)){
+        #if the file does not exist, download it
+        file_url <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
+        download.file(file_url, destfile = file_path, method = "curl")
+        # store the download date, url and filename in a csv file
+        date_file_name <- "source_info_exdata_data_household_power_consumption.csv"
+        date_file_path <- file.path(".",date_file_name)
+        write.csv(data.frame(date_downloaded = date(),
+                             file_url = file_url,
+                             file_name = file_name),
+                  file = date_file_path)
+    }
+    if (!file.exists(file.path(".","household_power_consumption.txt"))){
+        # unzip the file
+        unzip(file_path)
+    }
 }
