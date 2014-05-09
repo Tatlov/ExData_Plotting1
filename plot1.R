@@ -132,6 +132,8 @@ download_file_and_unzip <- function(){
                              file_url = file_url,
                              file_name = file_name),
                   file = date_file_path)
+    }
+    if (!file.exists(file.path(".","household_power_consumption.txt"))){
         # unzip the file
         unzip(file_path)
     }
