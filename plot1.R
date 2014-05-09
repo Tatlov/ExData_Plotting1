@@ -7,10 +7,11 @@
 # containing a histogram of a household's global active power
 # between 2007-02-01 and 2007-02-02.
 
-# If the zip file does not already exist, the data is obtained from
+
+# If the household_power_consumption.txt file does not already exist, 
+# the data is obtained from
 # https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip
-# and unzipped into a file named household_power_consumption.txt
-# in the same directory as this file plot1.R is located in.
+# and unzipped into a file named household_power_consumption.txt.
 
 # to create the plot run
 # source("plot1.R")
@@ -109,32 +110,37 @@ combine_date_and_time <- function(df){
     df[,!(names(df) %in% c(time_column_name, date_column_name))]
 }
 
+
 ################################################################################
 # Downloading the data
 ################################################################################
 
 download_file_and_unzip <- function(){
     # download the raw data from file url and unzip
-    # if the zip file does not already exist
+    # if the txt file does not already exist
     
     # set path to zip archive
     file_name <- "exdata_data_household_power_consumption.zip"
     file_path <- file.path(".",file_name)
-    # check if the zip file already exists
-    if (!file.exists(file_path)){
-        #if the file does not exist, download it
-        file_url <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
-        download.file(file_url, destfile = file_path, method = "curl")
-        # store the download date, url and filename in a csv file
-        date_file_name <- "source_info_exdata_data_household_power_consumption.csv"
-        date_file_path <- file.path(".",date_file_name)
-        write.csv(data.frame(date_downloaded = date(),
-                             file_url = file_url,
-                             file_name = file_name),
-                  file = date_file_path)
-    }
+    # check if the txt file exists
     if (!file.exists(file.path(".","household_power_consumption.txt"))){
+        # check if the zip file already exists
+        if (!file.exists(file_path)){
+            #if the file does not exist, download it
+            file_url <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
+            download.file(file_url, destfile = file_path, method = "curl")
+            # store the download date, url and filename in a csv file
+            date_file_name <- "source_info_exdata_data_household_power_consumption.csv"
+            date_file_path <- file.path(".",date_file_name)
+            write.csv(data.frame(date_downloaded = date(),
+                                 file_url = file_url,
+                                 file_name = file_name),
+                      file = date_file_path)
+        }
+        
         # unzip the file
         unzip(file_path)
     }
 }
+
+
